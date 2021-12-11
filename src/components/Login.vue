@@ -11,7 +11,7 @@
         :append-icon="mdi - close"
         placeholder="Contraseña"
       ></v-text-field>
-      <v-btn text to="/UserRegister"> Registro </v-btn><br />
+      <v-btn text to="/user_register"> Registro </v-btn><br />
       <v-btn color="primary" @click="onSubmit"> Entrar </v-btn>
     </form>
   </v-container>
