@@ -1,16 +1,18 @@
 <template>
   <div>
-    <NavBar />
-    <h1>Registro</h1>
+    <NavBar title="Crear Turno" />
+    <v-container grid-list-md>
+      <ForTurn />
+    </v-container>
   </div>
 </template>
 
 <script>
 import NavBar from "../components/NavBar.vue";
+import ForTurn from "../components/FormTurno.vue";
 export default {
-  components: { NavBar },
+  components: { NavBar, ForTurn },
 };
 </script>
 
-<style>
-</style>
+<style></style>

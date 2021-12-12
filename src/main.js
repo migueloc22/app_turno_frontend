@@ -6,9 +6,14 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 import "roboto-fontface/css/roboto/roboto-fontface.css";
 import "@mdi/font/css/materialdesignicons.css";
-
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 Vue.config.productionTip = false;
-
+const options = {
+  confirmButtonColor: '#FFDB58',
+  cancelButtonColor: '#ff7674',
+};
+Vue.use(VueSweetalert2,options);
 new Vue({
   router,
   store,

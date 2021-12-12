@@ -28,6 +28,14 @@ const routes = [
       ),
   },
   {
+    path: "/servie_detail/:id",
+    name: "servie_detail",
+    component: () =>
+      import(
+        /* webpackChunkName: "servie_detail" */ "../views/ServiceDetail.vue"
+      ),
+  },
+  {
     path: "/index",
     name: "index",
     component: () =>

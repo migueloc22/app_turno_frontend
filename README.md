@@ -1,5 +1,5 @@
 # app_turno_frontend
-## instlar vuecli
+## instalar vuecli
 ```
 npm install -g @vue/cli
 ```
@@ -9,6 +9,7 @@ npm install --save-dev  --unsafe-perm node-sass
 ```
 ## instalar paquetes de proyecto
 ```
+npm install
 ```
 
 ## ejecutar npm
