@@ -2,10 +2,7 @@
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" app>
       <v-list nav dense>
-        <v-list-item-group
-          v-model="group"
-          active-class="primary--text text--accent-4"
-        >
+        <v-list-item-group v-model="group" active-class="primary--text text--accent-4">
           <v-card dark>
             <v-list-item-avatar color="grey darken-3">
               <v-img
@@ -22,7 +19,7 @@
             > -->
 
             <v-card-actions>
-              <v-btn text> Close </v-btn>
+              <v-btn text @click="onclose"> Close </v-btn>
             </v-card-actions>
           </v-card>
           <div v-for="(item, index) in list" :key="index">
@@ -46,7 +43,8 @@
     <v-content style="top: 40px">
       <!--  -->
       <v-container grid-list-xs>
-        <Agenda />
+        <Agenda v-if="user_type!=2" />
+        <Reporte v-else-if="user_type==2"/>
       </v-container>
     </v-content>
   </v-app>
@@ -54,22 +52,26 @@
 
 <script>
 import Agenda from "./Agenda.vue";
-
+import Reporte from "./Reporte.vue";
+import { mapState } from "vuex";
 export default {
-  components: { Agenda },
+  components: { Agenda,Reporte },
   data: () => ({
     drawer: false,
     group: null,
     list: [],
     name: "",
-    usertype: 1,
+    user_type: localStorage.user_type,
   }),
   methods: {
     init() {
       let type = "";
+      if (!this.$store.state.token) {
+        this.$router.push('/')
+      }
       // type = localStorage.getItem('user_type')
       this.name = localStorage.getItem("user_name");
-      type = 1;
+      type = this.user_type;
       switch (type) {
         case 1:
           this.list = [
@@ -94,12 +96,18 @@ export default {
           break;
       }
     },
+    onclose(){
+      this.$store.dispatch("logout")
+      this.$router.push('/')
+    }
   },
   mounted() {
     this.init();
   },
+  computed: {
+    ...mapState(["state"]),
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

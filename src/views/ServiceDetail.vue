@@ -11,12 +11,12 @@
       <v-tabs-slider></v-tabs-slider>
 
       <v-tab href="#tab-1">
-        Recents
+        Detalles
         <v-icon>mdi-account-box</v-icon>
       </v-tab>
 
       <v-tab href="#tab-2">
-        Favorites
+        Comentarios
         <v-icon>mdi-message-text</v-icon>
       </v-tab>
     </v-tabs>

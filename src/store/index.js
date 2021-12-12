@@ -1,6 +1,7 @@
 import Vue from "vue"
 import Vuex from "vuex"
 import Axios from "axios"
+const FileDownload = require('js-file-download');
 // import { error } from 'util'
 Vue.use(Vuex, Axios)
 
@@ -23,6 +24,7 @@ export default new Vuex.Store({
     data_mechanical: [],
     data_turn_type: [],
     data_agenda: [],
+    data_observation: [],
     service_detail: {},
   },
   mutations: {
@@ -55,6 +57,9 @@ export default new Vuex.Store({
     },
     get_service_detail(state, dato) {
       state.service_detail = dato
+    },
+    get_observation(state, dato) {
+      state.data_observation = dato
     }
   },
   actions: {
@@ -88,11 +93,36 @@ export default new Vuex.Store({
           console.log(error);
         })
     },
+    Get_service_detail({ commit }, params) {
+      return new Promise((resolve, reject) => {
+        Axios.get(`${this.state.urlApi}turns/${params.id}`, { headers: this.state.headers })
+          .then(res => {
+            let dato = res.data;
+            commit('get_service_detail', dato);
+            resolve(res)
+          })
+          .catch(error => {
+            reject(error)
+            console.log(error);
+          })
+      })
+
+    },
     Get_turns_agenda({ commit }, params) {
       Axios.get(`${this.state.urlApi}turns_agenda/${params.id}/${params.date}`, { headers: this.state.headers })
         .then(res => {
           let dato = res.data;
           commit('get_agenda', dato);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    },
+    Get_observation({ commit }, params) {
+      Axios.get(`${this.state.urlApi}observations/${params.id}`, { headers: this.state.headers })
+        .then(res => {
+          let dato = res.data;
+          commit('get_observation', dato);
         })
         .catch(error => {
           console.log(error);
@@ -111,7 +141,7 @@ export default new Vuex.Store({
     logout({ commit }) {
       return new Promise((resolve) => {
         commit('logout')
-        localStorage.removeItem('token')
+        localStorage.clear()
         delete Axios.defaults.headers.common['Authorization']
         resolve()
       })
@@ -137,6 +167,48 @@ export default new Vuex.Store({
             reject(error)
           });
       })
+
+    },
+    PutTurnState({ commit }, params) {
+      return new Promise((resolve, reject) => {
+        Axios.put(`${this.state.urlApi}turns_states/${params.id}/${params.states}`, params, { headers: this.state.headers })
+          .then(res => {
+            console.log(res);
+            resolve(res)
+            commit()
+          })
+          .catch(error => {
+            console.log(error)
+            reject(error)
+          });
+      })
+
+    },
+    PostObservation({ commit }, params) {
+      return new Promise((resolve, reject) => {
+        Axios.post(`${this.state.urlApi}observations`, params, { headers: this.state.headers })
+          .then(res => {
+            resolve(res)
+            commit()
+          })
+          .catch(error => {
+            console.log(error)
+            reject(error)
+          });
+      })
+
+    },
+    ReporteEmpleado({ commit }, params) {
+      console.log(params)
+      Axios({
+        method: 'GET',
+        url: `${this.state.urlApi}reporte_servicio/${params.fecha_ini}/${params.fecha_final}`,
+        responseType: 'blob',
+        headers: this.state.headers
+      }).then(response  =>{
+        FileDownload(response.data, 'report.csv');
+      })
+      commit()
 
     },
     PostLogin({ commit }, params) {
