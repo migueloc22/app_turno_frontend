@@ -28,6 +28,14 @@ const routes = [
       ),
   },
   {
+    path: "/Agenda",
+    name: "Agenda",
+    component: () =>
+      import(
+        /* webpackChunkName: "Agenda" */ "../views/AgendaPage.vue"
+      ),
+  },
+  {
     path: "/servie_detail/:id",
     name: "servie_detail",
     component: () =>

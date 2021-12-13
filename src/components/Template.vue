@@ -19,11 +19,11 @@
             > -->
 
             <v-card-actions>
-              <v-btn text @click="onclose"> Close </v-btn>
+              <v-btn text @click="onclose"> Salir </v-btn>
             </v-card-actions>
           </v-card>
           <div v-for="(item, index) in list" :key="index">
-            <v-list-item>
+            <v-list-item @click="onPage(item.page)">
               <v-list-item-icon>
                 <v-icon>{{ item.icon }}</v-icon>
               </v-list-item-icon>
@@ -37,14 +37,14 @@
     <v-app-bar app color="primary">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title>{{title}}</v-toolbar-title>
     </v-app-bar>
 
     <v-content style="top: 40px">
       <!--  -->
       <v-container grid-list-xs>
-        <Agenda v-if="user_type!=2" />
-        <Reporte v-else-if="user_type==2"/>
+        <Agenda v-if="user_type != 2" />
+        <Reporte v-else-if="user_type == 2" />
       </v-container>
     </v-content>
   </v-app>
@@ -55,40 +55,46 @@ import Agenda from "./Agenda.vue";
 import Reporte from "./Reporte.vue";
 import { mapState } from "vuex";
 export default {
-  components: { Agenda,Reporte },
+  components: { Agenda, Reporte },
   data: () => ({
     drawer: false,
     group: null,
     list: [],
     name: "",
     user_type: localStorage.user_type,
+    title: "",
   }),
   methods: {
     init() {
       let type = "";
       if (!this.$store.state.token) {
-        this.$router.push('/')
+        this.$router.push("/");
       }
       // type = localStorage.getItem('user_type')
       this.name = localStorage.getItem("user_name");
       type = this.user_type;
       switch (type) {
-        case 1:
+        case "1":
+          this.title = "Cliente";
           this.list = [
             { title: "Home", icon: "mdi-home", page: "index" },
-            { title: "Account", icon: "mdi-account", page: "index" },
+            // { title: "Account", icon: "mdi-account", page: "index" },
           ];
           break;
-        case 2:
+        case "2":
+          this.title = "Admin";
           this.list = [
             { title: "Home", icon: "mdi-home", page: "index" },
-            { title: "Account", icon: "mdi-account", page: "index" },
+            { title: "Agenda", icon: "mdi-notebook", page: "Agenda" },
+            { title: "Crear Turno", icon: "mdi-book-plus", page: "turn_add" },
+            { title: "Agregar Usuario", icon: "mdi-account-plus", page: "user_register" },
           ];
           break;
-        case 3:
+        case "3":
+          this.title = "Mecanico";
           this.list = [
             { title: "Home", icon: "mdi-home", page: "index" },
-            { title: "Account", icon: "mdi-account", page: "index" },
+            // { title: "Account", icon: "mdi-account", page: "index" },
           ];
           break;
 
@@ -96,10 +102,13 @@ export default {
           break;
       }
     },
-    onclose(){
-      this.$store.dispatch("logout")
-      this.$router.push('/')
-    }
+    onPage(page){
+      this.$router.push(page);
+    },
+    onclose() {
+      this.$store.dispatch("logout");
+      this.$router.push("/");
+    },
   },
   mounted() {
     this.init();

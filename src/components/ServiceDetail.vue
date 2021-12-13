@@ -7,12 +7,12 @@
       <v-card-title primary-title>Servicio # {{ detail.id }} </v-card-title>
       <v-card-text>
         <v-row>
-          <v-card-title primary-title
-            >Cliente : {{ detail.name_mechanical }}</v-card-title
-          >
+          <v-card-title primary-title>Cliente : {{ detail.name_client }}</v-card-title>
         </v-row>
         <v-row>
-          <v-card-title primary-title>Mecanico: {{ detail.name_client }}</v-card-title>
+          <v-card-title primary-title
+            >Mecanico: {{ detail.name_mechanical }}</v-card-title
+          >
         </v-row>
         <v-row>
           <v-card-title primary-title>Placa: {{ detail.number_plate }}</v-card-title>

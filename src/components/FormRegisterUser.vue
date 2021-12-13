@@ -45,11 +45,7 @@
         label="Fecha Nacimiento"
         required
       ></v-text-field>
-      <v-select
-        :items="genders"
-        v-model="form.genders"
-        label="Genero"
-      ></v-select>
+      <v-select :items="genders" v-model="form.genders" label="Genero"></v-select>
       <v-btn class="mr-4" @click="onSubmit"> Guardar </v-btn>
       <v-btn type="reset" color="error"> Limpiar </v-btn>
     </form>
@@ -76,9 +72,16 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      console.log(this.form);
       // alert(JSON.stringify(this.form));
       this.$store.dispatch("PostUser", this.form);
+      this.form;
+      this.form.name = "";
+      this.form.email = "";
+      this.form.passworld = "";
+      this.form.number_document = "";
+      this.form.gender = "";
+      this.form.birthday_date = "";
+      this.$swal("Felicitaciones", "El Usuario guardó correctamente", "success");
     },
     onReset() {
       return null;
@@ -93,5 +96,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
